@@ -1,63 +1,68 @@
 // Tenemos un li de productos
 
 const productos = [
-  {nombre: "Zapato negro", tipo: "zapato", color: "negro", img: "./taco-negro.jpg"},
-  {nombre: "Zapato azul", tipo: "zapato", color: "azul", img: "./taco-azul.jpg"},
-  {nombre: "Bota negra", tipo: "bota", color: "negro", img: "./bota-negra.jpg"},
-  {nombre: "Bota azul", tipo: "bota", color: "azul", img: "./bota-azul.jpg"},
-  {nombre: "Zapato rojo", tipo: "zapato", color: "rojo", img: "./zapato-rojo.jpg"}
+  { nombre: "Zapato negro", tipo: "zapato", color: "negro", img: "./taco-negro.jpg" },
+  { nombre: "Zapato azul", tipo: "zapato", color: "azul", img: "./taco-azul.jpg" },
+  { nombre: "Bota negra", tipo: "bota", color: "negro", img: "./bota-negra.jpg" },
+  { nombre: "Bota azul", tipo: "bota", color: "azul", img: "./bota-azul.jpg" },
+  { nombre: "Zapato rojo", tipo: "zapato", color: "rojo", img: "./zapato-rojo.jpg" }
 ]
 
-const li = document.getElementsByName("lista-de-productos")
-const $i = document.querySelector('.input');
+const listaDeProductos = document.getElementById("lista-de-productos")// get element by id, no name, cambie nombre de variable li por listDeProductos
 
-for (let i = 0; i < productos.length; i++) {
-  var d = document.createElement("div")
-  d.classList.add("producto")
+function displayProductos(productos) {//se estructuro la funcion display products, estaba sin definir como funcion
 
-  var ti = document.createElement("p")
-  ti.classList.add("titulo")
-  ti.textContent = productos[i].nombre
-  
-  var imagen = document.createElement("img");
-  imagen.setAttribute('src', productos[i].img);
+  for (let i = 0; i < productos.length; i++) {
+    var contenedorDeProducto = document.createElement("div");//cambie nombre de variable d por contenedorDeProducto para más legibilidad
+    contenedorDeProducto.classList.add("producto");
 
-  d.appendChild(ti)
-  d.appendChild(imagen)
+    var descripcionDeProducto = document.createElement("p");//cambie nombrede variable ti por descripcionDeProductopara más legibilidad
+    descripcionDeProducto.classList.add("titulo");
+    descripcionDeProducto.textContent = productos[i].nombre;
 
-  li.appendChild(d)
+    var imagen = document.createElement("img");
+    imagen.setAttribute('src', productos[i].img);
+
+    contenedorDeProducto.appendChild(descripcionDeProducto);
+    contenedorDeProducto.appendChild(imagen);
+
+    listaDeProductos.appendChild(contenedorDeProducto);
+  }
 }
 
-displayProductos(productos)
 const botonDeFiltro = document.querySelector("button");
 
-botonDeFiltro.onclick = function() {
-  while (li.firstChild) {
-    li.removeChild(li.firstChild);
+botonDeFiltro.onclick = function () {
+  const elementoFiltro = document.querySelector('filtroInput');//id se movio de linea12, estaba en otra funcion, se cambio nombre de la variable para más legibilidad, se quito .input
+
+  while (listaDeProductos.firstChild) {
+    listaDeProductos.removeChild(listaDeProductos.firstChild);
   }
 
-  const texto = $i.value;
-  console.log(texto);
-  const productosFiltrados = filtrado(productos, texto );
+  const textoFiltro = elementoFiltro.value.toLocaleLowerCase();// se agrega metodo to lower case para distincion minusculas y mayusculas, se cambia nombre de la variable para más legibilidad
+  console.log(textoFiltro);
+  const productosFiltrados = filtrado(productos, textoFiltro);
 
   for (let i = 0; i < productosFiltrados.length; i++) {
-    var d = document.createElement("div")
-    d.classList.add("producto")
-  
-    var ti = document.createElement("p")
-    ti.classList.add("titulo")
-    ti.textContent = productosFiltrados[i].nombre
-    
+    var contenedorDeProducto = document.createElement("div");
+    contenedorDeProducto.classList.add("producto");
+
+    var descripcionDeProducto = document.createElement("p");
+    descripcionDeProducto.classList.add("titulo");
+    descripcionDeProducto.textContent = productosFiltrados[i].nombre;
+
     var imagen = document.createElement("img");
     imagen.setAttribute('src', productosFiltrados[i].img);
-  
-    d.appendChild(ti)
-    d.appendChild(imagen)
-  
-    li.appendChild(d)
+
+    contenedorDeProducto.appendChild(descripcionDeProducto);
+    contenedorDeProducto.appendChild(imagen);
+
+    listaDeProductos.appendChild(contenedorDeProducto);
   }
 }
 
 const filtrado = (productos = [], texto) => {
   return productos.filter(item => item.tipo.includes(texto) || item.color.includes(texto));
-}  
+}
+
+displayProductos(productos);// llamada de funcion para desplegar productos

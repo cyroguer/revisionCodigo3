@@ -5,8 +5,9 @@ input {
 }
 
 #lista-de-productos {
-  display: flex
+  display: flex; 
 }
+/* no habia ; en flex */
 
 .producto {
   width: 200px;
